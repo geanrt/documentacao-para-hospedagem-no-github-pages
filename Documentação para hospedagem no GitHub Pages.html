@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <title>Documentação para hospedagem no GitHub Pages</title>
+    <script src="https://kit.fontawesome.com/98ac505aee.js" crossorigin="anonymous"></script>
+    <style>
+      * {
+        font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
+          sans-serif;
+      }
+      body {
+        background-color: rgb(43, 41, 40);
+        
+      }
+
+      main{
+        color: #fff;
+        width: 100%;
+        max-width: 800px;
+        margin: 50px auto;
+        display: flex;
+        flex-direction: column;
+        gap: 40px;
+
+      }
+      
+      h1 {
+        text-decoration: underline;
+      }
+      h3 {
+        padding: 10px;
+        background-color: rgb(253, 102, 43);
+        font-size: 20px;
+        box-shadow: 0 2px 4px 1px rgba(0, 0, 0, 0.22);
+        margin-top: 60px;
+      }
+     
+      pre {
+        background-color: rgb(24, 24, 28);
+        color: rgb(255, 72, 0);
+        display: flex;
+        flex-direction: column;
+      }
+      code {
+        font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+       overflow-x: auto;
+       padding: 20px 40px;
+      padding-left: 0;
+      }
+      ul {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+      li {
+        color: #d0d0d0;
+      }
+      li span {
+        font-weight: 600;
+        color: #fff;
+      }
+      a{
+        color: rgb(255, 190, 165);
+        text-decoration: none;
+      }
+      a:hover{
+        text-decoration: underline;
+      }
+      a i{
+        font-size: 15px;
+        margin-right: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <section>
+        <h1 id="config_deploy_manual">Configurações + Deploy manual no GitHub Pages</h1>
+        <h3>
+          1. Para hospedar o aplicativo no GitHub Pages, você precisa usar o
+          BrowserRouter do pacote react-router-dom no arquivo de root do
+          projeto. Se sua página inicial (home) estiver na rota /, você pode
+          usar o BrowserRouter da seguinte maneira:
+        </h3>
+        <pre>
+          <code>
+          &lt;BrowserRouter basename={"/"}&gt;
+          &lt;App /&gt;
+          &lt;/BrowserRouter&gt;
+          </code>
+        </pre>
+        <p>
+          Se sua página inicial (home) estiver em /meu-repositorio, como em um
+          repositório específico, use o BrowserRouter dessa forma:
+        </p>
+        <pre>
+        <code>
+        &lt;BrowserRouter basename={"/meu-repositorio"}&gt;
+        &lt;App /&gt;
+        &lt;/BrowserRouter&gt;
+        </code>
+        </pre>
+        <p>
+          E se você estiver usando uma rota personalizada, como
+          meusite.com/minha-rota, use o BrowserRouter assim:
+        </p>
+        <pre>
+        <code>
+        &lt;BrowserRouter basename={"/minha-rota"}&gt;
+        &lt;App /&gt;
+        &lt;/BrowserRouter&gt;
+        </code>
+        </pre>
+        <h3>2. Configuração no arquivo package.json</h3>
+        <p>
+          No arquivo package.json, defina a propriedade "homepage" com o URL do
+          domínio personalizado ou do repositório específico onde você planeja
+          hospedar seu aplicativo no GitHub Pages.
+        </p>
+        <pre>
+        <code>
+        "homepage": "https://meusite.com",
+        </code>
+        </pre>
+        <p>Exemplo com repositório específico:</p>
+        <pre>
+        <code>
+        "homepage": "https://meunome.github.io/meu-repositorio",
+        </code>
+        </pre>
+        <p>Exemplo com rota personalizada:</p>
+        <pre>
+        <code>
+        "homepage": "https://meusite.com/minha-rota",
+        </code>
+        </pre>
+        <h3>
+          3. Configuração no arquivo de configuração do Vite (vite.config.js)
+        </h3>
+        <p>
+          Se você estiver usando o Vite como gerador do projeto, adicione a
+          linha de comando base: "./" no arquivo de configuração vite.config.js.
+          Isso garantirá que todos os arquivos sejam carregados a partir do
+          diretório raiz do projeto durante o desenvolvimento e a construção do
+          aplicativo.
+        </p>
+        <pre>
+        <code>
+        export default defineConfig({
+          plugins: [react()],
+          base: "./"
+        });
+        </code>
+        </pre>
+        <h3>
+          4. Configuração para retornar à página inicial em caso de erro 404
+        </h3>
+        <p>
+          Para garantir que o GitHub Pages retorne à página inicial quando
+          ocorrer um erro 404, siga estas etapas adicionais:
+        </p>
+        <ol>
+          <li>
+            Depois de construir o aplicativo Vite usando o comando "npm run
+            build", o conteúdo será gerado na pasta "dist".
+          </li>
+          <li>
+            Crie um arquivo "404.html" separado no diretório "dist" com o mesmo
+            conteúdo do "index.html".
+          </li>
+          <li>
+            Renomeie a pasta "dist" para "docs" e faça o upload (contendo o
+            arquivo "index.html" original, o arquivo "404.html" personalizado e
+            os outros arquivos) para o repositório do GitHub.
+          </li>
+          <li>
+            No GitHub, vá para as configurações do seu repositório, clique na
+            aba "Pages" e defina a branch apropriada (normalmente, "main:
+            /docs") para servir o GitHub Pages. Certifique-se de selecionar o
+            diretório "docs" como a pasta raiz para servir.
+          </li>
+        </ol>
+      </section>
+      <section>
+        <h1>Deploy com Git no GitHub Pages</h1>
+        <p>
+          Como fazer o Deploy de um Projeto Vite no GitHub Pages com Página 404
+          Personalizada
+        </p>
+        <p>
+          Neste tutorial, vamos aprender como fazer o deploy de um projeto
+          criado com o Vite no GitHub Pages e incluir uma página personalizada
+          de erro 404. Usaremos a ferramenta gh-pages para realizar o deploy e o
+          pacote fs-extra para copiar o arquivo index.html para 404.html.
+        </p>
+        <h3>Pré-requisitos:</h3>
+        <p>Node.js e npm instalados no seu sistema.</p>
+        <h3>Passo 1: Configurar o Projeto</h3>
+        <p>Crie um novo projeto Vite:</p>
+        <p>
+          Abra o terminal e crie um novo projeto Vite utilizando o seguinte
+          comando:
+        </p>
+        <pre>
+        <code>
+        npm init vite@latest
+        </code>
+        </pre>
+        <p>
+          Siga as instruções para configurar o projeto e escolher a template
+          desejada (por exemplo, vanilla, react ou vue).
+        </p>
+        <p>Instale as dependências:</p>
+        <p>
+          Navegue até o diretório do projeto recém-criado e instale as
+          dependências do projeto:
+        </p>
+        <pre>
+        <code>
+        cd nome-do-projeto
+        npm install
+        </code>
+        </pre>
+        <h3>Passo 2: Build do Projeto</h3>
+        <p>
+          Faça apenas os passos 1, 2 e 3 da <a href="#config_deploy_manual"><i class="fa-solid fa-link"></i>Configurações + Deploy manual no GitHub Pages</a> e mão na
+          massa para criar o corpo do seu projeto.
+        </p>
+        <h3>Passo 3: Build do Projeto</h3>
+        <p>
+          Instale os pacotes gh-pages, fs-extra, npm-run-all como dependência
+          apenas de desenvolvimento:
+        </p>
+        <pre>
+        <code>
+        npm i gh-pages fs-extra npm-run-all --save-dev
+        </code>
+        </pre>
+        <p>Abra o arquivo package.json e adicione os scripts:</p>
+        <pre>
+        <code>
+        "scripts": {
+          "predeploy": "npm-run-all build-dist copy-index",
+          "build-dist": "npm run build",
+          "copy-index": "node -e \"require('fs-extra').copySync('dist/index.html', 'dist/404.html')\"",
+          "deploy": "gh-pages -d dist"
+        }
+        </code>
+        </pre>
+        <p>A função de cada um:</p>
+        <ul>
+          <li>
+            <span>predeploy:</span> O script predeploy é um script personalizado
+            que será executado antes do script deploy. É utilizado para executar
+            outras tarefas ou scripts preparatórios antes de fazer o deploy do
+            projeto. Neste caso, ele executa dois outros scripts: build-dist e
+            copy-index.
+          </li>
+          <li>
+            <span>build-dist:</span> O script build-dist é um script
+            personalizado que serve para construir o projeto. Ele é usado para
+            criar a pasta dist que contém os arquivos finais e otimizados do
+            projeto prontos para o deploy. Neste caso, ele simplesmente chama o
+            script build, que é um comando padrão no Vite para construir o
+            projeto.
+          </li>
+          <li>
+            <span>copy-index:</span> O script copy-index é um script
+            personalizado que copia o arquivo index.html da pasta dist para
+            404.html dentro da mesma pasta dist. Isso permite que você tenha uma
+            página personalizada de erro 404 no site, redirecionando o usuário
+            para o index do projeto e deixando a questão do roteamento por conta
+            do react-router-dom e não do GitHub.
+          </li>
+          <li>
+            <span>deploy:</span> O script deploy é responsável por fazer o
+            deploy do projeto no GitHub Pages. Ele utiliza o comando gh-pages
+            para realizar o deploy, enviando os arquivos presentes na pasta dist
+            para o GitHub Pages.
+          </li>
+        </ul>
+        <h3>Conexão com o Github</h3>
+        <p>
+          Faça as etapas simples do Git sem uma branch, pois o gh-pages já irá
+          criar uma chamada "gh-pages". Configure o Git remote para o novo
+          repositório no GitHub:
+        </p>
+        <pre>
+        <code>
+        git init
+        git add README.md
+        git commit -m "deployment with gh-pages"
+        git remote add origin URL_DO_REPOSITORIO (ex: https://github.com/seu_nome/seu_repositorio.git)
+        </code>
+        </pre>
+        <h3>Passo 4: Executar o Deploy</h3>
+        <p>
+          Execute o comando npm run deploy para fazer o deploy do projeto no
+          GitHub Pages:
+        </p>
+        <pre>
+        <code>
+        npm run deploy
+        </code>
+        </pre>
+        <p>Agora, o projeto Vite foi implantado no GitHub Pages.</p>
+      </section>
+    </main>
+  </body>
+</html>
