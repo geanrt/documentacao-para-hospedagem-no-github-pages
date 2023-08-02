@@ -139,16 +139,17 @@
         </h3>
         <p>
           Se você estiver usando o Vite como gerador do projeto, adicione a
-          linha de comando base: "./" no arquivo de configuração vite.config.js.
+          linha de comando base: "/" no arquivo de configuração vite.config.js.
           Isso garantirá que todos os arquivos sejam carregados a partir do
           diretório raiz do projeto durante o desenvolvimento e a construção do
           aplicativo.
         </p>
+        <p>*MUITO IMPORTANTE MANTER O "/" E NÃO O "./"</p>
         <pre>
         <code>
         export default defineConfig({
           plugins: [react()],
-          base: "./"
+          base: "/"
         });
         </code>
         </pre>
